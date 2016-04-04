@@ -1,95 +1,99 @@
-﻿using System;
+﻿using System.Collections.Generic;
 
 namespace hw3
 {
 	public class Worm
 	{
 		private int growthCount = 0;
-		private Location location;
-		private Direction direction;
-		private bool alive = true;
+        private int caloriesCount = 0;
+        private bool alive = true;
+        private Location headLocation;
+		private Direction heading;
+        private Direction previousHeading;
+        private Queue<Location> body;
 
-        public List<Tuple<int, int>> body;
-
-		public Worm (int growthCount,Location location,Direction direction,bool alive) // (in x, int y)
-		{
-			this.growthCount = growthCount;
-			this.location = location; // tuple
-			this.direction = direction;
-			this.alive = alive;
-
-
-            //hodina
-
-            body = new List<Tuple<int, int>>();
-
-            body.Add(new Tuple<int, int>(x, y));
-
+        public Worm(Location headLocation, Direction heading)
+        {
+            this.headLocation = headLocation;
+            this.heading = heading;
+            previousHeading = heading;
+            body = new Queue<Location>();
+            body.Enqueue(headLocation);
         }
 
-		public void Move (GameMap map)
+		public void Move()
 		{
-            Tuple<int, int> head = body[body.Count - 1];
-
-            Tuple<int, int> newHead = new Tuple<int, int>(head.Item1 + direction.dX(), head.Item2 = direction.dY());
-
-            // zkontrolovat jestli nejsem mimo mapu
-
-            IMapTile tile = map.GetMap().GetTile(newHead.Item1, newHead.Item2);
-
-            tile.Chewed(map);
-
-            //zkontrolovat jestli jsem se nekousl sam for cyklus
-
-            //musime se pohnout
-            body.Add(newHead);
-            if (growthCount > 0)
-            {
-                //togrow
-            } else
-            {
-                body.RemovaAt(0);
-            }
-
-            // delta rendering
+            // Since worm's body is a first in, last out queue,
+            // we add new Location of the worm's head and remove
+            // the last part of the body as a simulation of movement.
+            headLocation = headLocation.GetNextLocation(heading);
+            body.Enqueue(headLocation);
+            body.Dequeue();
         }
 
-        //render 
-
-		public void Grow (int i)
+		public void Grow(int i)
 		{
-            this.growthCount += i;
-		}
+            growthCount += 1;
+            caloriesCount += i;
+            headLocation = headLocation.GetNextLocation(heading);
+            body.Enqueue(headLocation);
+            // We only add new first head tile location withnout
+            // removing the last one as a simulation of one tile growth.
+        }
 
-		public void Die ()
+		public void Die()
 		{
             alive = false;
 		}
 
-		public bool IsAlive ()
+		public bool IsAlive()
 		{
 			return alive;
 		}
 
-		public int GetGrowthCount ()
+		public void SetWhereToMoveNext(Direction dir)
 		{
-			return growthCount;
-		}
+            previousHeading = heading;
+            if (ReferenceEquals(heading, Direction.UpDir()) || ReferenceEquals(heading, Direction.DownDir()))
+            {
+                if (ReferenceEquals(dir, Direction.LeftDir()) || ReferenceEquals(dir, Direction.RightDir()))
+                {
+                    heading = dir;
+                }
+            }
+            else
+            {
+                if (ReferenceEquals(dir, Direction.UpDir()) || ReferenceEquals(dir, Direction.DownDir()))
+                {
+                    heading = dir;
+                }
+            }
+        }
 
-		public Location GetLocation ()
-		{
-			return location;
-		}
+        public int GetGrowthCount()
+        {
+            return growthCount;
+        }
 
-		public Direction GetDirection ()
-		{
-			return direction;
-		}
+        public Location GetHeadLocation()
+        {
+            return headLocation;
+        }
 
-		public void SetHeading (Direction dir)
-		{
+        public Direction GetHeading()
+        {
+            return heading;
+        }
 
-		}
-	}
+        public Direction GetPreviousHeading()
+        {
+            return previousHeading;
+        }
+
+        public Queue<Location> GetWormBody()
+        {
+            return body;
+        }
+    }
 }
 	

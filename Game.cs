@@ -1,34 +1,53 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace hw3
 {
     class Game
     {
-        public void Run()
+        private static IPlayerController controller;
+        private GameMap map;
+        private int basePeriod = 300;
+        private int gamePeriod;
+
+        public Game(int height, int width)
         {
-            GameMap map = new GameMap(MainClass., 20);
-
-            map.Render();
-
-            IPlayerController controller = new KeyboardController();
-
-            long lastMillis = 0;
-
-            long nextWormMove = 200;
-
-            while (!controller.IsEndGame())
-            {
-                controller.Update();
-                if (controller.GetInput() != null) lastDirection
-
-
-            } 
+            map = new GameMap(height, width);
+            controller = KeyboardController.GetKeyboard();
         }
 
+        // Controls game flow, main infinite cycle running until game over or Esc.
+        public void Run()
+        {
+            while (true)
+            {
+                // Firstly checks if should we do something.
+                if (TimeDelta.GetTimer().RealDelta() > gamePeriod)
+                {
+                    // Secondly updates current time in Timer, reads last key pressed
+                    // and checks if the game is not about to end.
+                    TimeDelta.GetTimer().Update();
 
+                    if (map.GetWorm().IsAlive() && !(controller.IsEndGame()))
+                    {
+                        controller.Update();
+                        // Now in controller.GetInput().d[X,Y]() we have relative 
+                        // directions of movement.
+
+                        map.Step(controller.GetInput());
+                        map.PlaceSpecialAtRandomFreePlace(5000);
+                        map.Render();
+                        // The game must get faster and faster.
+                        gamePeriod = basePeriod - (map.GetWorm().GetGrowthCount() / 5) * 25;
+                    }
+                    else
+                        break;
+                }
+            }
+        }
+
+        public static IPlayerController GetController()
+        {
+            return controller;
+        }
     }
 }

@@ -4,26 +4,26 @@ namespace hw3
 {
 	class MainClass
 	{
-        public int userHeightInt;
-        public int userWidthInt;
-        bool result;
-        string userHeightString;
-        string userWidthString;
-
         public static void Main (string[] args)
 		{
-            Console.WriteLine("This is the Worm game. Please insert height and width (default 400x400).");
+            int userHeightInt;
+            int userWidthInt;
+            bool isParameterGiven;
+
+            // Game map dimension insertion.
+            Console.WriteLine("This is the Worm game. Please insert height and width (max 80x40, default side length is 40).");
             Console.WriteLine("Height:");
-            userHeightString = Console.ReadLine();
+            isParameterGiven = int.TryParse(Console.ReadLine(), out userHeightInt);
+            if (!isParameterGiven || (userHeightInt < 1 || userHeightInt > 80))
+                userHeightInt = 40;
             Console.WriteLine("Width:");
-            userWidthString = Console.ReadLine();
+            isParameterGiven = int.TryParse(Console.ReadLine(), out userWidthInt);
+            if (!isParameterGiven || (userHeightInt < 1 || userHeightInt > 40))
+                userWidthInt = 40;
 
-            result = int.TryParse(userHeightString, out userHeightInt);
-            if (!result) userHeightInt = 400;
-            result = int.TryParse(userWidthString, out userWidthInt);
-            if (!result) userWidthInt = 400;
-
-            Game.Run();
+            // Game initialization given user defined dimensions.
+            Game thisSession = new Game(userHeightInt, userWidthInt);
+            thisSession.Run();
         }
 	}
 }

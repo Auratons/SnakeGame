@@ -36,11 +36,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Game.cs" />
-    <Compile Include="Keyboard.cs" />
     <Compile Include="IPlayerController.cs" />
+    <Compile Include="Keyboard.cs" />
     <Compile Include="KeyboardController.cs" />
+    <Compile Include="MapTileWine.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TimeDelta.cs" />
     <Compile Include="Worm.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="MapTileBase.cs" />

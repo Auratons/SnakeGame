@@ -1,27 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace hw3
 {
     class Keyboard
     {
         // Singleton definition
-        private static Keyboard instance;
+        private static Keyboard instance = new Keyboard();
 
         // Singleton constructor
         public static Keyboard GetKeyboard()
         {
-            if (instance == null)
-            {
-                instance = new Keyboard();
-            }
             return instance;
         }
-
-        private Keyboard() {}
 
         public bool HasKey()
         {
@@ -32,14 +22,9 @@ namespace hw3
         {
             if (HasKey())
             {
-                return Console.ReadKey(true).Key;
+                return Console.ReadKey(true);
             }
             return null;
-        }
-
-        public void Reverse(long miliseconds)
-        {
-
         }
     }
 }

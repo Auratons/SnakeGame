@@ -1,4 +1,4 @@
-﻿using System;
+﻿
 
 namespace hw3
 {
@@ -16,7 +16,7 @@ namespace hw3
 			return graphics;
 		}
 
-		public abstract void Chewed(GameMap map);
+		public abstract void Chewed(Worm worm);
 	}
 }
 	

@@ -1,4 +1,4 @@
-﻿using System;
+﻿
 
 namespace hw3
 {
@@ -16,10 +16,9 @@ namespace hw3
 			return calories;
 		}
 
-		public override void Chewed(GameMap map)
+		public override void Chewed(Worm worm)
 		{
-            map.GetWorm().Grow(calories);
-            map.PlaceAtRandomFree(this);
+            worm.Grow(calories);
 		}
 	}
 }

@@ -1,4 +1,4 @@
-﻿using System;
+﻿
 
 namespace hw3
 {
@@ -9,9 +9,9 @@ namespace hw3
 			
 		}
 
-		public override void Chewed(GameMap map)
+		public override void Chewed(Worm worm)
 		{
-			
+            worm.Move();
 		}
 	}
 }

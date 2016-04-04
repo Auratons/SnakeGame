@@ -8,29 +8,29 @@ namespace hw3
 		private ConsoleColor foreground;
 		private ConsoleColor background;
 
-		public ColoredLetter (ConsoleColor foreground,ConsoleColor background,char character)
+		public ColoredLetter(ConsoleColor foreground, ConsoleColor background, char character)
 		{
 			this.foreground = foreground;
 			this.background = background;
 			this.character = character;
 		}
 
-		public char GetChar ()
+		public char GetChar()
 		{
 			return character;
 		}
 
-		public ConsoleColor GetForegroundColor ()
+		public ConsoleColor GetForegroundColor()
 		{
 			return foreground;
 		}
 
-		public ConsoleColor GetBackgroundColor ()
+		public ConsoleColor GetBackgroundColor()
 		{
 			return background;
 		}
 
-		public void Write ()
+		public void Write()
 		{
             Console.BackgroundColor = background;
             Console.ForegroundColor = foreground;
